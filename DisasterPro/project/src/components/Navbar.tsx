@@ -26,8 +26,11 @@ const Navbar = () => {
               <Link to="/disaster-identifier">
                 <Button variant="ghost">Disaster Identifier</Button>
               </Link>
-              <Link to="/resource"> {/* ✅ Fixed the spelling mistake */}
+              <Link to="/resource">
                 <Button variant="ghost">Resource</Button>
+              </Link>
+              <Link to="/resource-management">
+                <Button variant="ghost">Resource Management</Button>
               </Link>
               {user?.role === 'admin' && (
                 <Link to="/admin">
@@ -70,15 +73,21 @@ const Navbar = () => {
               Disaster Identifier
             </Link>
             <Link
-              to="/resource" // ✅ Fixed the incorrect link here too
+              to="/resource"
               className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
             >
               Resource
             </Link>
+            <Link
+              to="/resource-management"
+              className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+            >
+              Resource Management
+            </Link>
             {user?.role === 'admin' && (
               <Link
                 to="/admin"
-                className="block  py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+                className="block py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
               >
                 Admin Panel
               </Link>
