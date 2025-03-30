@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import joblib
 import nltk
@@ -75,6 +75,11 @@ def analyze_tweet():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# 🟢 **Route to Serve Images**
+@app.route('/images/<path:filename>')
+def serve_image(filename):
+    return send_from_directory(BASE_IMAGE_DIR, filename)
+
 # 🟢 **Route to Get Image List from Directory**
 @app.route("/get-images", methods=["POST"])
 def get_images():
@@ -82,15 +87,27 @@ def get_images():
         data = request.get_json()
         city_name = data.get("city")
 
-        # Determine correct directory
+        # Determine the correct image directory
         image_dir = os.path.join(BASE_IMAGE_DIR, city_name) if city_name else BASE_IMAGE_DIR
         if not os.path.exists(image_dir):
             return jsonify({"error": f"Image directory '{city_name}' not found"}), 404
 
+        # Get list of image files
         image_files = [f for f in os.listdir(image_dir) if f.lower().endswith((".png", ".jpg", ".jpeg"))]
-        image_paths = [os.path.join(image_dir, img) for img in image_files]
-
-        return jsonify({"images": image_paths})
+        images = []
+        for img in image_files:
+            # Full path to the image
+            full_path = os.path.join(image_dir, img)
+            # Relative path from BASE_IMAGE_DIR
+            rel_path = os.path.relpath(full_path, BASE_IMAGE_DIR)
+            # Replace backslashes with forward slashes
+            url_path = rel_path.replace('\\', '/')
+            # Construct the URL using the cleaned path
+            images.append({
+                "path": full_path,
+                "url": f"/images/{url_path}"
+            })
+        return jsonify({"images": images})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -128,7 +145,6 @@ def get_resources():
         return jsonify({"resources": resources})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == "__main__":
     app.run(debug=True)
