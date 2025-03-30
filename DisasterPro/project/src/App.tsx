@@ -58,6 +58,8 @@ function App() {
             />
              */}
             <Route path="/resource" element={<ResourcePage />}/>
+            <Route path="/resource-management" element={<ResourceManagement />}/>
+
             <Route path="/admin" element={<AdminPanel />}/>
             <Route path="/disaster-identifier" element={<DisasterIdentifier />}/>
             <Route path="/dashboard" element={<Dashboard />}/>
