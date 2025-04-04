@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 
+import ResourceManagement from './pages/resource-management'
 import Dashboard from './pages/Dashboard';
 import DisasterIdentifier from './pages/DisasterIdentifier';
 import ResourcePage from './pages/ResourcePage';
@@ -58,6 +59,8 @@ function App() {
             />
              */}
             <Route path="/resource" element={<ResourcePage />}/>
+            <Route path="/resource-management" element={<ResourceManagement />}/>
+
             <Route path="/admin" element={<AdminPanel />}/>
             <Route path="/disaster-identifier" element={<DisasterIdentifier />}/>
             <Route path="/dashboard" element={<Dashboard />}/>
